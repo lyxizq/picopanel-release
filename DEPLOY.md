@@ -17,7 +17,7 @@ PicoPanel 是 Linux 服务器监控系统：服务端（Go + SQLite，单二进�
 |---|---|
 | 系统 | Linux x86_64（amd64）或 arm64（aarch64） |
 | 依赖 | 无（静态编译；不需要数据库、运行时、容器） |
-| 权限 | 服务端建议 root 运行（需写 `/etc/lm.idc` 凭据加密密钥，见 3.4）；agent 普通用户即可 |
+| 权限 | 服务端建议 root 运行；agent 普通用户即可 |
 | 浏览器 | 现代浏览器（Chrome/Edge/Firefox/Safari），支持手机浏览 |
 
 ## 2. 下载与校验
@@ -137,7 +137,6 @@ RestartSec=3
 # 部分虚拟化环境（OpenVZ/LXC 等）Go 运行时会把 CPU 配额推导为 0 启动即崩，
 # 遇到时取消下行注释（改成实际逻辑核数）
 #Environment=GOMAXPROCS=2
-# 专用户运行需预建可写的 /etc/lm.idc（见 3.4），否则保持 root
 #User=picopanel
 
 [Install]
@@ -155,8 +154,7 @@ curl -s http://127.0.0.1:8080 -o /dev/null -w '%{http_code}\n'   # 200/30x 即�
 ### 3.4 首次启动
 
 - 自动创建管理员 **`admin / admin123`**（日志有提示），浏览器打开 `http://<服务端IP>:8080` 登录后**立即在右上角「个人信息」改掉**
-- 首次启动自动生成 **`/etc/lm.idc`**（凭据加密密钥，权限 0600，一般需 root 运行）。**该文件必须随数据库一起备份**——丢失后已加密的 SSH 密码/IP 无法恢复（重新填写凭据可恢复使用）
-- 数据库 `lz-monitor.db` 与日志 `lz-server.log` 都在部署目录（`WorkingDirectory`），备份这两个文件加 `/etc/lm.idc` 即可整体迁移
+- 数据库 `lz-monitor.db` 与日志 `lz-server.log` 都在部署目录（`WorkingDirectory`），备份数据库文件即可整体迁移
 - 防火墙放行 8080（清单见第 5 节）；公网部署务必加 TLS 反代（见第 6 节）
 
 ## 4. 添加被监控机
