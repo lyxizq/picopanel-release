@@ -227,3 +227,63 @@ clean:
 	rm -rf bin release
 	rm -rf internal/server/ui/dist/*
 	touch internal/server/ui/dist/.gitkeep
+
+## ============ Docker 部署目标 ============
+
+## 构建 Docker 镜像（多架构）
+docker-build:
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		-t picopanel/picopanel:latest \
+		-t picopanel/picopanel:$(VERSION) \
+		-f Dockerfile .
+
+## 推送镜像到 Docker Hub
+docker-push: docker-build
+	docker buildx build \
+		--platform linux/amd64,linux/arm64 \
+		--push \
+		-t picopanel/picopanel:latest \
+		-t picopanel/picopanel:$(VERSION) \
+		-f Dockerfile .
+
+## 启动（后台）
+docker-up:
+	@[ -f server.yaml ] || (echo "错误: 缺 server.yaml"; exit 1)
+	@[ -f lm.idc ] || (echo "错误: 缺 lm.idc，运行: openssl rand -base64 32 > lm.idc"; exit 1)
+	docker compose -f docker-compose.prod.yml up -d
+	@echo "✓ 已启动，查看日志: make docker-logs"
+
+## 前台运行（调试用）
+docker-run:
+	docker compose -f docker-compose.prod.yml up
+
+## 停止
+docker-down:
+	docker compose -f docker-compose.prod.yml down
+
+## 重启
+docker-restart:
+	docker compose -f docker-compose.prod.yml restart picopanel-server
+
+## 查看日志
+docker-logs:
+	docker compose -f docker-compose.prod.yml logs -f picopanel-server
+
+## 容器状态
+docker-ps:
+	docker compose -f docker-compose.prod.yml ps
+
+## 资源使用
+docker-stats:
+	docker stats picopanel-server
+
+## 进入容器 shell
+docker-shell:
+	docker compose -f docker-compose.prod.yml exec picopanel-server sh
+
+## 备份数据库（直接复制宿主机文件，无需进容器）
+docker-backup:
+	@mkdir -p backups
+	cp data/lz-monitor.db backups/lz-monitor.db.$(shell date +%Y%m%d_%H%M%S)
+	@echo "✓ 备份完成"

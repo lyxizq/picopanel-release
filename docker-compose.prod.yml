@@ -1,0 +1,45 @@
+services:
+  picopanel-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: picopanel/picopanel:latest
+    container_name: picopanel-server
+    restart: always
+    ports:
+      - "8080:8080"  # 上层反代指向这个端口
+    volumes:
+      - ./data:/data
+      - ./lm.idc:/etc/lm.idc
+      - ./server.yaml:/etc/picopanel/server.yaml:ro
+      - ./logs:/var/log/picopanel
+    environment:
+      TZ: Asia/Shanghai
+    healthcheck:
+      test: ["CMD-SHELL", "curl -so /dev/null --connect-timeout 2 http://localhost:8080; [ $? -ne 7 ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: '100m'
+        max-file: '5'
+    networks:
+      - picopanel-net
+    user: "1000:1000"
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  picopanel-net:
+    driver: bridge

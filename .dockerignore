@@ -1,0 +1,47 @@
+.git
+.gitignore
+.github
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# 文档
+*.md
+LICENSE
+docs/
+
+# 测试和开发
+*.test.js
+*.test.go
+*.spec.js
+node_modules/
+web/node_modules/
+web/.npm-cache/
+
+# 本地文件
+.env
+.env.local
+data/
+logs/
+backups/
+ssl/*.pem
+*.db
+*.db-*
+
+# 构建产物
+bin/
+release/
+dist/
+internal/server/ui/dist/*
+!internal/server/ui/dist/.gitkeep
+
+# Docker 特定
+docker-compose.dev.yml
+docker-compose.override.yml
+Dockerfile.dev
+
+# 临时文件
+.tmp/
+*.log
