@@ -1,0 +1,27 @@
+# lz-agent 配置模板
+# 部署：把 lz-agent 可执行文件与本文件放在同一目录（本文件改名为 agent.yaml），
+# 直接 ./lz-agent 启动即可，默认读取可执行文件同目录的 agent.yaml。
+# 建议执行 chmod 600 agent.yaml 保护 token。
+#
+# 数据出口两选一（mode）：
+#   pull（缺省）：只开一个只读指标端口等服务端来抓，agent 不需要知道服务端地址，
+#                也不外发任何数据；对应服务端「Agent 拉取」方式。
+#   push：agent 主动把指标 POST 上报服务端（适合 agent 在内网/NAT 后、
+#         服务端无法主动访问的场景）；对应服务端「Agent 上报」方式，
+#         token 用服务端创建该服务器时生成的接入密钥，不开任何端口。
+
+mode: "pull"         # pull | push
+listen: ":19100"     # pull 模式：指标端口（服务端抓取的地址）
+# server_url: "http://<服务端IP>:8080"   # push 模式：服务端地址
+interval: 10s        # 内部采集周期（与服务端 10s 抓取节奏保持一致）
+token: ""            # pull=抓取密钥（X-Server-Token，可留空）；push=上报身份（X-Agent-Token，必填）
+                     # ⚠ pull 模式要在线升级必须配置 token：未配密钥的机器一律拒绝远程升级
+collect_listens: true  # 是否采集监听端口（缺省 true）。false=不读取端口也不上报，
+                       # 服务端端口列表与「端口监听」类告警随之停更（改回 true 即恢复）
+
+log_file: "off"      # 默认零日志：不写任何日志，agent 对磁盘零写入；
+                     # 需要排查问题时改为 agent.log（滚动写入本目录，自动轮转）
+log_max_mb: 300      # 日志总占用上限（当前文件 + 2 个备份均摊，超限自动轮转）
+
+upgrade: true         # 是否接受在线升级（396，缺省 true）：服务端下发/推送新版本时
+                      # 自动验签替换重启（失败自动回滚旧版）；置 false 本机退出自动升级
