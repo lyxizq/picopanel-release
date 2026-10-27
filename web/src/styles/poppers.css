@@ -1,0 +1,284 @@
+/* 主页弹层（popper 挂 body）全局样式：天气气泡 pv-wx-pop + 搜索引擎下拉 pv-eng-pop。
+   独立成文件经 main.js 常驻引入——原先写在 PageView 非 scoped 块里会随主页 chunk
+   懒加载，直接进智能家居页（不路过主页）时样式缺失，弹层内容裸奔（12）。 */
+/* 天气预报气泡：挂载在 body 下（popper），scoped 样式够不到，这里全局定义。
+   配色走主页深底玻璃口径（主页为常驻深紫渐变背景，不随三主题反转）。
+   531 毛玻璃强化 + 底色渐变（参照苹果天气）：纯色紫蓝玻璃改纵向渐变
+   （亮紫蓝顶 → 深靛蓝底），blur 加深并叠 saturate 提磨砂质感，顶部内描
+   高光做玻璃棱线。 */
+.pv-wx-pop {
+  background: linear-gradient(
+    180deg,
+    rgba(90, 98, 186, 0.6) 0%,
+    rgba(50, 56, 114, 0.68) 55%,
+    rgba(33, 37, 84, 0.78) 100%
+  ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(24px) saturate(1.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 10px 34px rgba(0, 0, 0, 0.4) !important;
+  padding: 14px 16px !important; /* 四周边距加大（516），EP 默认 12px 太贴边 */
+}
+
+/* 箭头整体隐藏（532 用户报图：EP 箭头默认底色在渐变弹层外露出黑菱形，
+   516 的 ::before 同色覆盖在新版结构下未兜住——干脆不显示箭头） */
+.pv-wx-pop .el-popper__arrow {
+  display: none !important;
+}
+
+.pv-wx-pop .pv-wx-pop-body { display: flex; flex-direction: column; gap: 10px; color: #fff; max-height: 68vh; overflow-y: auto; }
+
+/* 当前天气 hero（515）：大图标 + 大温度 + 文案/城市 + 体感胶囊 */
+.pv-wx-pop .pv-wx-hero { display: flex; align-items: center; gap: 12px; }
+
+.pv-wx-pop .pv-wx-hero-ico { display: inline-flex; width: 46px; height: 46px; flex: none; color: #fff; }
+
+.pv-wx-pop .pv-wx-hero-ico svg { width: 100%; height: 100%; }
+
+.pv-wx-pop .pv-wx-hero-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+
+.pv-wx-pop .pv-wx-hero-temp { font-size: 30px; font-weight: 750; line-height: 1; font-variant-numeric: tabular-nums; }
+
+.pv-wx-pop .pv-wx-hero-temp i { font-style: normal; font-size: 18px; font-weight: 600; opacity: 0.8; margin-left: 1px; }
+
+.pv-wx-pop .pv-wx-hero-text { font-size: 12.5px; opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.pv-wx-pop .pv-wx-hero-feels {
+  align-self: flex-start;
+  flex: none;
+  font-size: 11.5px;
+  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3px 9px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* 预警条（524）：置顶红玻璃，文案两行截断 */
+.pv-wx-pop .pv-wx-warn {
+  background: rgba(255, 107, 107, 0.16);
+  border: 1px solid rgba(255, 107, 107, 0.45);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.pv-wx-pop .pv-wx-warn b { font-size: 12.5px; color: #ff9f8a; }
+.pv-wx-pop .pv-wx-warn i {
+  font-style: normal;
+  font-size: 11.5px;
+  line-height: 1.45;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 分钟级降水摘要（524）：hero 下灰字一行 */
+.pv-wx-pop .pv-wx-min {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 22px;
+}
+.pv-wx-pop .pv-wx-min-txt { font-size: 12px; opacity: 0.85; min-width: 0; }
+.pv-wx-pop .pv-wx-min-ext { display: inline-flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; margin-left: auto; }
+
+/* 生活指数（524）：名称+等级小 chip 流式排布，悬停看全文 */
+.pv-wx-pop .pv-wx-idx { display: flex; flex-wrap: wrap; gap: 5px; }
+.pv-wx-pop .pv-wx-idx-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 3px 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.pv-wx-pop .pv-wx-idx-chip i { font-style: normal; font-size: 10.5px; font-weight: 500; opacity: 0.6; }
+
+/* 极端天气 chips（536）：比普通指数 chip 更醒目——青蓝描边 */
+.pv-wx-pop .pv-wx-idx-chip.ext { box-shadow: inset 0 0 0 1px rgba(143, 199, 255, 0.35); color: #bfe0ff; }
+
+/* 七日行雪/风小角标（536）：叠在降水概率后，title 带详情 */
+.pv-wx-pop .pv-wx-day-ex { font-style: normal; font-size: 9px; margin-left: 1px; }
+
+/* 七日概率格自绘 tooltip（539 原生 title 不可靠）：与弹层同底色玻璃 */
+.pv-wx-tip {
+  background: rgba(33, 37, 84, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #e8eeff !important;
+  font-size: 11.5px;
+  max-width: 220px;
+  line-height: 1.5;
+}
+.pv-wx-tip .el-popper__arrow::before {
+  background: rgba(33, 37, 84, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+
+/* 7 日预报（515）：名称/图标/降水/最低-温区条-最高，Apple Weather 式 */
+.pv-wx-pop .pv-wx-days { display: flex; flex-direction: column; }
+
+.pv-wx-pop .pv-wx-days-head {
+  font-size: 11px;
+  opacity: 0.55;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.pv-wx-pop .pv-wx-day {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  padding: 7px 0 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pv-wx-pop .pv-wx-day:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.pv-wx-pop .pv-wx-day-name { width: 40px; flex: none; opacity: 0.9; }
+
+.pv-wx-pop .pv-wx-day-ico { display: inline-flex; width: 18px; height: 18px; flex: none; }
+
+.pv-wx-pop .pv-wx-day-ico svg { width: 100%; height: 100%; }
+
+.pv-wx-pop .pv-wx-day-precip { width: 34px; flex: none; font-size: 11px; color: #8fc7ff; white-space: nowrap; }
+
+.pv-wx-pop .pv-wx-day-min { width: 34px; flex: none; text-align: right; font-weight: 600; opacity: 0.7; font-variant-numeric: tabular-nums; }
+
+.pv-wx-pop .pv-wx-day-max { width: 34px; flex: none; font-weight: 650; font-variant-numeric: tabular-nums; }
+
+.pv-wx-pop .pv-wx-day-bar { flex: 1; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+
+.pv-wx-pop .pv-wx-day-bar i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6fb1ff, #ffcf6e);
+}
+
+/* 最后更新时间（519）：弹层底部右对齐灰字 */
+.pv-wx-pop .pv-wx-upd { font-size: 11px; opacity: 0.55; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* 底行（522）：左「历史」入口 + 右更新时间 */
+.pv-wx-pop .pv-wx-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+
+.pv-wx-pop .pv-wx-hist-link { flex: none; font-size: 11px; opacity: 0.7; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
+
+.pv-wx-pop .pv-wx-hist-link:hover { opacity: 1; }
+
+/* 历史视图（522）：头行返回+标题、指标/区间两排胶囊、空态 */
+.pv-wx-pop .pv-wx-hist-head { display: flex; align-items: baseline; justify-content: space-between; }
+
+.pv-wx-pop .pv-wx-hist-back { font-size: 11.5px; opacity: 0.75; cursor: pointer; }
+
+.pv-wx-pop .pv-wx-hist-back:hover { opacity: 1; }
+
+.pv-wx-pop .pv-wx-hist-title { font-size: 12.5px; font-weight: 650; }
+
+.pv-wx-pop .pv-wx-seg { display: flex; gap: 4px; }
+
+.pv-wx-pop .pv-wx-seg button {
+  flex: 1;
+  font-size: 11px;
+  padding: 4px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+
+.pv-wx-pop .pv-wx-seg button.on { background: rgba(255, 255, 255, 0.2); color: #fff; font-weight: 650; }
+
+.pv-wx-pop .pv-wx-hist-empty { font-size: 12px; opacity: 0.6; text-align: center; padding: 36px 0; }
+
+/* 搜索引擎下拉（teleport 到 body，scoped 够不到，走 popper-class，408） */
+.pv-eng-pop .el-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pv-eng-pop .pv-eng-ico {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+}
+.pv-eng-pop .pv-eng-ico svg { width: 100%; height: 100%; display: block; }
+
+/* 品牌暗色主题（40 gold + 41 八套）：主页/HA 切品牌暗色时天气弹层换同系玻璃。
+   popper 挂 body 但仍在 html 下，主题类天然命中，无需动模板；!important 同强度后写胜出。
+   色值走每主题 --wx-* 变量（pop=玻璃渐变三停、line=品牌半透描边、tip=自绘 tooltip 底/字） */
+html { --wx-pop-1: rgba(146, 116, 52, 0.55); --wx-pop-2: rgba(38, 31, 16, 0.62); --wx-pop-3: rgba(52, 41, 18, 0.75); --wx-line: rgba(232, 201, 106, 0.22); --wx-tip-bg: rgba(38, 31, 16, 0.94); --wx-tip-ink: #f3ead2; }
+html.dark.teal { --wx-pop-1: rgba(20, 118, 92, 0.5); --wx-pop-2: rgba(24, 54, 46, 0.62); --wx-pop-3: rgba(9, 30, 25, 0.75); --wx-line: rgba(46, 196, 155, 0.22); --wx-tip-bg: rgba(24, 54, 46, 0.94); --wx-tip-ink: #e6f6ef; }
+html.dark.rose { --wx-pop-1: rgba(122, 32, 58, 0.5); --wx-pop-2: rgba(48, 28, 34, 0.62); --wx-pop-3: rgba(31, 11, 18, 0.75); --wx-line: rgba(224, 86, 111, 0.22); --wx-tip-bg: rgba(48, 28, 34, 0.94); --wx-tip-ink: #f8eaee; }
+html.dark.glacier { --wx-pop-1: rgba(30, 98, 150, 0.5); --wx-pop-2: rgba(27, 42, 52, 0.62); --wx-pop-3: rgba(10, 22, 33, 0.75); --wx-line: rgba(86, 170, 224, 0.22); --wx-tip-bg: rgba(27, 42, 52, 0.94); --wx-tip-ink: #e9f3f9; }
+html.dark.ember { --wx-pop-1: rgba(142, 62, 24, 0.5); --wx-pop-2: rgba(46, 35, 27, 0.62); --wx-pop-3: rgba(28, 19, 13, 0.75); --wx-line: rgba(232, 129, 79, 0.22); --wx-tip-bg: rgba(46, 35, 27, 0.94); --wx-tip-ink: #f8efe9; }
+html.dark.moss { --wx-pop-1: rgba(98, 140, 44, 0.5); --wx-pop-2: rgba(34, 40, 25, 0.62); --wx-pop-3: rgba(17, 23, 11, 0.75); --wx-line: rgba(148, 195, 86, 0.22); --wx-tip-bg: rgba(34, 40, 25, 0.94); --wx-tip-ink: #eef6e6; }
+html.dark.graphite { --wx-pop-1: rgba(74, 96, 118, 0.5); --wx-pop-2: rgba(33, 37, 42, 0.62); --wx-pop-3: rgba(17, 20, 24, 0.75); --wx-line: rgba(157, 180, 200, 0.22); --wx-tip-bg: rgba(33, 37, 42, 0.94); --wx-tip-ink: #e9edf2; }
+html.dark.neon { --wx-pop-1: rgba(130, 44, 118, 0.5); --wx-pop-2: rgba(44, 26, 44, 0.62); --wx-pop-3: rgba(26, 11, 26, 0.75); --wx-line: rgba(217, 91, 184, 0.22); --wx-tip-bg: rgba(44, 26, 44, 0.94); --wx-tip-ink: #f9e9f5; }
+html.dark.abyss { --wx-pop-1: rgba(24, 62, 86, 0.5); --wx-pop-2: rgba(22, 31, 37, 0.62); --wx-pop-3: rgba(7, 14, 19, 0.75); --wx-line: rgba(63, 143, 163, 0.22); --wx-tip-bg: rgba(22, 31, 37, 0.94); --wx-tip-ink: #e7eef2; }
+
+html.gold .pv-wx-pop,
+html.dark.teal .pv-wx-pop,
+html.dark.rose .pv-wx-pop,
+html.dark.glacier .pv-wx-pop,
+html.dark.ember .pv-wx-pop,
+html.dark.moss .pv-wx-pop,
+html.dark.graphite .pv-wx-pop,
+html.dark.neon .pv-wx-pop,
+html.dark.abyss .pv-wx-pop {
+  background: linear-gradient(
+    180deg,
+    var(--wx-pop-1) 0%,
+    var(--wx-pop-2) 55%,
+    var(--wx-pop-3) 100%
+  ) !important;
+  border: 1px solid var(--wx-line) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 10px 34px rgba(0, 0, 0, 0.45) !important;
+}
+html.gold .pv-wx-tip,
+html.dark.teal .pv-wx-tip,
+html.dark.rose .pv-wx-tip,
+html.dark.glacier .pv-wx-tip,
+html.dark.ember .pv-wx-tip,
+html.dark.moss .pv-wx-tip,
+html.dark.graphite .pv-wx-tip,
+html.dark.neon .pv-wx-tip,
+html.dark.abyss .pv-wx-tip {
+  background: var(--wx-tip-bg) !important;
+  border: 1px solid var(--wx-line) !important;
+  color: var(--wx-tip-ink) !important;
+}
+html.gold .pv-wx-tip .el-popper__arrow::before,
+html.dark.teal .pv-wx-tip .el-popper__arrow::before,
+html.dark.rose .pv-wx-tip .el-popper__arrow::before,
+html.dark.glacier .pv-wx-tip .el-popper__arrow::before,
+html.dark.ember .pv-wx-tip .el-popper__arrow::before,
+html.dark.moss .pv-wx-tip .el-popper__arrow::before,
+html.dark.graphite .pv-wx-tip .el-popper__arrow::before,
+html.dark.neon .pv-wx-tip .el-popper__arrow::before,
+html.dark.abyss .pv-wx-tip .el-popper__arrow::before {
+  background: var(--wx-tip-bg) !important;
+  border-color: var(--wx-line) !important;
+}
+
+/* 全站弹层顶部统一钉在控制台标签栏顶（2026-10-23 用户指定「上移到红框顶」）：
+   头行 el-header 默认高 60px，其下即标签栏——margin-top 取 --el-header-height
+   自动跟随头高；!important 压过 el-dialog 默认 15vh 与各页零散 top 值
+   （站内无 fullscreen 弹层，不受影响）。 */
+.el-dialog {
+  margin-top: var(--el-header-height, 60px) !important;
+}
