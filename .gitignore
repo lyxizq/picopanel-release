@@ -1,0 +1,33 @@
+# 构建产物
+bin/
+release/
+
+# 前端
+web/node_modules/
+web/.npm-cache/
+internal/server/ui/dist/*
+!internal/server/ui/dist/.gitkeep
+
+# 会话临时文件（项目内暂存，见 CLAUDE.md 约束）
+.tmp/
+
+# 运行时数据
+*.db
+*.db-wal
+*.db-shm
+
+# 本地配置
+agent.yaml
+server.yaml
+
+# IDE
+.idea/
+.vscode/
+*.log
+.DS_Store
+
+# vditor 按需加载资源（构建期从 node_modules 拷贝，见 web/scripts/copy-vendor.mjs）
+web/public/vendor/
+
+# 误提交的本地构建二进制（2026-10-22 开源清理退出跟踪）
+/lz-agent
