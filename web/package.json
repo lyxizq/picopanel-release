@@ -1,0 +1,34 @@
+{
+  "name": "lz-monitor-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "copy:vendor": "node scripts/copy-vendor.mjs",
+    "dev": "node scripts/copy-vendor.mjs && vite",
+    "build": "node scripts/copy-vendor.mjs && vite build"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "echarts": "^6.1.0",
+    "element-plus": "^2.9.0",
+    "monaco-editor": "^0.57.0",
+    "vditor": "^4.0.0",
+    "vue": "^3.5.0",
+    "vue-i18n": "^11.4.16",
+    "vue-router": "^4.5.0"
+  },
+  "overrides": {
+    "dompurify": "3.4.17"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "unplugin-auto-import": "^21.1.0",
+    "unplugin-vue-components": "^32.1.0",
+    "vite": "^8.3.5"
+  }
+}
