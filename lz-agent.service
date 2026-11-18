@@ -1,0 +1,16 @@
+[Unit]
+Description=lz-monitor Agent (观澜监控采集端)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile=/home/lyxizq/agent/lz-agent.pid
+WorkingDirectory=/home/lyxizq/agent
+ExecStart=/home/lyxizq/agent/lz-agent.sh start
+ExecStop=/home/lyxizq/agent/lz-agent.sh stop
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

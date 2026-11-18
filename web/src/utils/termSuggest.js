@@ -1,0 +1,27 @@
+// 终端输入补全的内置命令集：与本地历史命令（localStorage 按服务器记忆）一起
+// 作为幽灵提示候选。条目可带常用参数（按整串前缀匹配），按使用频率大致排序。
+export const COMMON_COMMANDS = [
+  'ls', 'ls -la', 'ls -lh', 'll', 'cd ..', 'pwd', 'clear', 'history',
+  'cat ', 'less ', 'head ', 'tail ', 'tail -f ', 'grep ', 'grep -r ', 'grep -i ',
+  'find ', 'find . -name ', 'which ', 'whereis ', 'tree ',
+  'vim ', 'vi ', 'nano ', 'echo ', 'touch ', 'mkdir ', 'rm ', 'rm -rf ', 'mv ', 'cp ', 'cp -r ',
+  'chmod +x ', 'chmod 755 ', 'chown -R ', 'ln -s ', 'stat ', 'diff ', 'wc -l ',
+  'tar -czvf ', 'tar -xzvf ', 'zip -r ', 'unzip ', 'gzip ', 'gunzip ',
+  'wget ', 'curl ', 'curl -I ', 'ping ', 'telnet ', 'ssh ', 'scp ', 'rsync -avz ',
+  'df -h', 'du -sh ', 'du -sh *', 'free -h', 'top', 'htop', 'uptime',
+  'ps aux', 'ps -ef', 'kill ', 'kill -9 ', 'pkill ', 'jobs', 'nohup ',
+  'systemctl status ', 'systemctl start ', 'systemctl stop ', 'systemctl restart ',
+  'systemctl reload ', 'systemctl enable ', 'systemctl disable ', 'systemctl list-units ',
+  'journalctl -f', 'journalctl -u ', 'journalctl -xe',
+  'service ', 'chkconfig ', 'crontab -e', 'crontab -l',
+  'ip a', 'ip addr', 'ip route', 'ifconfig', 'netstat -tlnp', 'ss -tlnp', 'ss -s',
+  'lsof -i:', 'dig ', 'nslookup ', 'traceroute ', 'mtr ', 'tcpdump -i any ',
+  'iptables -L -n', 'firewall-cmd --list-all', 'firewall-cmd --reload', 'ufw status',
+  'docker ps', 'docker ps -a', 'docker images', 'docker logs -f ', 'docker exec -it ',
+  'docker restart ', 'docker stop ', 'docker start ', 'docker compose ps', 'docker compose logs -f ',
+  'kubectl get pods', 'kubectl get svc', 'kubectl logs -f ', 'kubectl describe pod ',
+  'uname -a', 'cat /etc/os-release', 'hostnamectl', 'lsb_release -a',
+  'vmstat 1', 'iostat -x 1', 'mpstat 1', 'sar -u 1', 'dmesg | tail', 'lscpu', 'lsblk',
+  'yum install ', 'apt install ', 'dnf install ', 'rpm -qa | grep ', 'dpkg -l | grep ',
+  'reboot', 'shutdown -h now', 'exit',
+]
