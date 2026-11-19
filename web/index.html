@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- PWA 清单：iOS 16.4+ 只对「安装型主屏 Web App」投递 Web Push，
+         WebKit 依据 manifest（含 name/icons）判定，缺了订阅成功也不通知 -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#2a78d6" />
+    <title>PicoPanel</title>
+    <script>
+      // 首屏即应用明暗主题（与 src/utils/theme.js 同逻辑），避免加载完成前闪一下错误配色
+      ;(function () {
+        var t = localStorage.getItem('lz-theme')
+        var classed = 'violet gold teal rose glacier ember moss graphite neon abyss'.split(' ')
+        if (t !== 'light' && (t === 'dark' || classed.indexOf(t) >= 0 || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches))) {
+          document.documentElement.classList.add('dark')
+        }
+        if (classed.indexOf(t) >= 0) {
+          document.documentElement.classList.add(t)
+        }
+        // 界面语言：早设 <html lang>（字体渲染/输入法提示）；文案由 i18n 模块挂载前定稿
+        var l = localStorage.getItem('lz-lang')
+        document.documentElement.lang = l === 'en' ? 'en' : 'zh-CN'
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

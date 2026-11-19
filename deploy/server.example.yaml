@@ -1,0 +1,60 @@
+# lz-server 配置示例（全部字段可选，缺省即如下默认值）
+# 手动启动：./lz-server -config server.yaml
+
+listen: ":8080"            # 监听地址
+db_path: lz-monitor.db     # SQLite 文件路径
+alert_keep_days: 90        # 已恢复告警保留天数
+offline_after: 2m          # 超过该时长无成功抓取判定离线
+scrape_interval: 10s       # 抓取周期（agent 拉取与 SSH 直连两种方式共用）
+scrape_timeout: 10s        # 单次抓取/SSH 执行超时
+
+log_file: lz-server.log    # 滚动日志文件（前台运行时终端同步输出）
+log_max_mb: 50             # 日志总占用上限（当前文件 + 2 个备份均摊，超限自动轮转）
+
+# 只读快照/即时查询接口令牌（供 Homepage 等常驻面板轮询）：留空或不配置 = 不开通这两个接口。
+# 生成方式：openssl rand -hex 32；用法与接口字段见 README「Homepage 集成」章节。
+#snapshot_token: ""
+
+# Web 访问白名单（留空/不配 = 不限制）：仅白名单内的 IP 或域名可访问页面与 API
+# （含登录），其余一律 403。条目支持三种写法，任一命中即放行：
+#   单个 IP：192.168.1.10     ——按来源 IP 匹配（TCP 对端，不信任 X-Forwarded-For）
+#   CIDR：10.0.0.0/8、fd00::/64
+#   域名：monitor.example.com ——按访问用的域名（请求 Host 头，忽略大小写与端口）
+#     匹配：用该域名访问放行，IP 直连/其他域名 403。主要拦 IP 扫描器；Host 头可被
+#     非浏览器客户端伪造，属已知取舍，登录与失败限流仍然兜底
+# 注意：经反代访问时来源 IP 是反代机——IP 条目请在反代层做限制；域名条目正常生效。
+# agent 上报接口不受白名单影响（被监控机不该受此约束）。
+#web_allow:
+#  - 192.168.1.0/24
+#  - monitor.example.com
+
+# 真实客户端 IP 请求头（留空或不配 = 取 TCP 对端地址）：部署在边缘代理后面时，
+# 服务端看到的对端是代理回源节点，登录日志/登录失败限流/Web 白名单须读代理注入
+# 的请求头才能拿到访客真实 IP。阿里 ESA 在「托管转换」开启「添加真实客户端IP
+# 标头」后注入 Ali-Real-Client-Ip：
+#real_ip_header: "Ali-Real-Client-Ip"
+# 可信代理网段（IP 或 CIDR，配合 real_ip_header）：仅这些对端注入的头被采信，
+# 防止绕过代理直连源站伪造 IP；留空 = real_ip_header 一律不采信（fail-closed，
+# 2026-10-06 起）——开 real_ip_header 就必须配上代理回源网段。
+#trusted_proxies:
+#  - 10.0.0.0/8
+# 会话 Cookie 加 Secure 属性（仅 HTTPS 请求携带）：HTTPS/反代 TLS/CDN 部署打开，
+# 纯 HTTP 内网保持关闭（打开后浏览器在 http 下不带 Cookie，无法登录）。
+#cookie_secure: true
+
+# 在线更新（395/396，2026-10-08 起默认启用）：按序回退的源列表 + 自动检查 + agent 自动分发。
+# sources 支持两类源，按序回退：
+#   github:用户名/picopanel-release   （GitHub Releases：stable=正式版，beta=prerelease）
+#   https://example.com/panel/stable  （静态目录：内含 manifest.json 与 .sig）
+#   镜像加速：镜像前缀直接拼在 GitHub 地址前（ghfast.top / gh-proxy.com 实测可用）
+# channel: stable                    # stable（缺省）| beta（GitHub 源=prerelease）
+# check_interval: 30m                # 自动检查周期；不配=仅后台「系统信息」页手动检查
+# agents: true                       # 检出新版后自动升级名下 agent（缺省开；agent 无状态重启无感）
+update:
+  sources:
+    - https://ghfast.top/https://github.com/lyxizq/picopanel-release/releases/latest/download
+    - https://gh-proxy.com/https://github.com/lyxizq/picopanel-release/releases/latest/download
+    - github:lyxizq/picopanel-release
+  channel: stable
+  check_interval: 30m
+  agents: true
