@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p><w:pPr><w:jc w:val="center"/><w:spacing w:after="240"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr><w:t>房屋租赁合同</w:t></w:r></w:p>
+    <w:p><w:pPr><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">出租方（甲方）：{{甲方姓名}}　　身份证号：{{甲方身份证号}}　　联系电话：{{甲方电话}}</w:t></w:r></w:p>
+    <w:p><w:pPr><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">承租方（乙方）：{{乙方姓名}}　　身份证号：{{乙方身份证号}}　　联系电话：{{乙方电话}}</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">根据《中华人民共和国民法典》及相关法律法规，甲乙双方在平等、自愿、协商一致的基础上，就房屋租赁事宜达成如下协议：</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第一条　房屋基本情况</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">甲方将坐落于{{房屋地址}}的房屋出租给乙方居住使用，建筑面积约{{建筑面积}}，户型{{户型}}。屋内家具、家电配置以第四条清单为准。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第二条　租赁期限</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">租赁期限自{{租期开始}}起至{{租期结束}}止。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第三条　租金与押金</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">月租金为人民币{{月租金}}元。乙方应于签署本合同时向甲方支付押金人民币{{押金}}元；付款方式：{{付款方式}}。租赁期满或合同解除后，乙方结清全部应付费用，甲方验房无异议后，押金无息退还乙方。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第四条　家具电器清单</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">甲方交付房屋时，屋内家具、家电等物品以本合同附件《房屋物品交接清单》为准（按房屋配置自动生成于本合同末页），双方当面清点签字确认。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第五条　水电燃气及其他费用</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">水卡号：{{水卡号}}；电卡号：{{电卡号}}；燃气卡号：{{燃气卡号}}。租赁期内的水费、电费、燃气费、物业费、网络费等由乙方承担并按时缴纳。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第六条　甲方权利义务</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">甲方保证房屋权属清晰、可合法出租，并按时交付房屋及附属设施；非乙方原因导致的房屋主体结构损坏及自然损耗，由甲方负责维修。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第七条　乙方权利义务</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">乙方应按时支付租金及各项费用，不得擅自改变房屋用途或转租；爱护屋内设施，人为损坏照价赔偿；遵守物业管理规定，不得利用房屋从事违法活动。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第八条　合同解除与违约责任</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">任何一方需提前解除本合同，应提前三十日书面通知对方；乙方中途退租的，押金按双方约定处理；甲方无故提前收回房屋的，应退还剩余租金及押金。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第九条　争议解决</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">本合同履行过程中发生争议，由双方协商解决；协商不成的，任何一方均可向房屋所在地人民法院提起诉讼。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>第十条　其他</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">本合同一式两份，甲乙双方各执一份，自双方签字之日起生效。未尽事宜由双方另行协商补充。</w:t></w:r></w:p>
+    <w:p><w:pPr><w:jc w:val="both"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">其他约定：{{其他约定}}</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:before="360"/><w:ind w:firstLineChars="200" w:firstLine="420"/></w:pPr><w:r><w:t xml:space="preserve">签订日期：{{签订日期}}</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:before="240"/></w:pPr><w:r><w:t xml:space="preserve">甲方（签字）：____________　　　　乙方（签字）：____________</w:t></w:r></w:p>
+    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="851" w:footer="992" w:gutter="0"/></w:sectPr>
+  </w:body>
+</w:document>
